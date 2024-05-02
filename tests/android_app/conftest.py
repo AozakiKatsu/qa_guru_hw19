@@ -4,15 +4,22 @@ import allure_commons
 from appium.options.android import UiAutomator2Options
 from selene import browser, support
 import os
+from dotenv import load_dotenv
 
-import config
 from qa_guru_hw19 import utils
 
 from appium import webdriver
 
 
+@pytest.fixture(scope="session", autouse=True)
+def load_env():
+    load_dotenv()
+
+
 @pytest.fixture(scope='function', autouse=True)
 def mobile_management():
+    login = os.getenv("LOGIN")
+    accesskey = os.getenv("ACCESS_KEY")
     options = UiAutomator2Options().load_capabilities({
         # Specify device and os_version for testing
         # 'platformName': 'android',
@@ -29,8 +36,8 @@ def mobile_management():
             'sessionName': 'BStack first_test',
 
             # Set your access credentials
-            'userName': config.bstack_userName,
-            'accessKey': config.bstack_accessKey,
+            'userName': login,
+            'accessKey': accesskey,
         }
     })
 
@@ -69,5 +76,3 @@ def mobile_management():
         browser.quit()
 
     utils.allure.attach_bstack_video(session_id)
-
-
