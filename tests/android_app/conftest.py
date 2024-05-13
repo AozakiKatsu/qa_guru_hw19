@@ -21,15 +21,13 @@ def mobile_management():
     login = os.getenv("LOGIN")
     accesskey = os.getenv("ACCESS_KEY")
     options = UiAutomator2Options().load_capabilities({
-        # Specify device and os_version for testing
-        # 'platformName': 'android',
+
+        'platformName': 'android',
         'platformVersion': '9.0',
         'deviceName': 'Google Pixel 3',
 
-        # Set URL of the application under test
         'app': 'bs://sample.app',
 
-        # Set other BrowserStack capabilities
         'bstack:options': {
             'projectName': 'First Python project',
             'buildName': 'browserstack-build-1',
@@ -41,8 +39,8 @@ def mobile_management():
         }
     })
 
-    # browser.config.driver_remote_url = 'http://hub.browserstack.com/wd/hub'
-    # browser.config.driver_options = options
+    browser.config.driver_remote_url = 'http://hub.browserstack.com/wd/hub'
+    browser.config.driver_options = options
 
     with allure.step('init app session'):
         browser.config.driver = webdriver.Remote(
